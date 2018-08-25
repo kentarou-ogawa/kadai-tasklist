@@ -1,7 +1,7 @@
 <h1>メッセージ一覧</h1>
 
 <ul>
-  <% @tasks.each do |tasks| %>
+  <% @tasks.each do |task| %>
     <li><%= link_to tasks.id, tasks %> : <%=tasks.content %></li>
   <% end %>
 </ul>

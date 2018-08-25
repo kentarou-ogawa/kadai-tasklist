@@ -1,82 +1,58 @@
-class TasksController < ApplicationController
-   def index
-    @tasks = tasks.all
+class TaskController < ApplicationController
+  def index
+    @tasks = task.all
   end
 
-   def show
-    @tasks = tasks.find(params[:id])
+  def show
+    set_task
   end
 
   def new
-    @tasks = tasks.new
+    @task = task.new
   end
 
+  def create
+    @task = task.new(task_params)
 
-  
-
-  def edit
-  end
-
-  def update
-  end
-
-  def destroy
-  enddef create
-    @tasks = tasks.new(tasks_params)
-
-    if @tasks.save
-      flash[:success] = 'tasks が正常に投稿されました'
-      redirect_to @tasks
+    if @task.save
+      flash[:success] = 'task が正常に投稿されました'
+      redirect_to @task
     else
-      flash.now[:danger] = 'tasks が投稿されませんでした'
+      flash.now[:danger] = 'task が投稿されませんでした'
       render :new
     end
   end
 
   def edit
-    @tasks = tasks.find(params[:id])
+    set_task
   end
 
   def update
-  end
-
-  
-  def destroy
-    @tasks = tasks.find(params[:id])
-    @tasks.destroy
-
-    flash[:success] = 'tasks は正常に削除されました'
-    redirect_to tasks_url
-  end
-
-  
-  def update
-    @tasks = tasks.find(params[:id])
-
-    if @tasks.update(v_params)
-      flash[:success] = 'tasks は正常に更新されました'
-      redirect_to @tasks
+    set_task
+    if @task.update(task_params)
+      flash[:success] = 'task は正常に更新されました'
+      redirect_to @task
     else
-      flash.now[:danger] = 'tasks は更新されませんでした'
+      flash.now[:danger] = 'task は更新されませんでした'
       render :edit
     end
   end
 
-  
-  def create
-    @tasks = tasks.new(tasks_params)
+  def destroy
+    @task = task.find(params[:id])
+    @task.destroy
 
-    if @tasks.save
-      flash[:success] = 'tasks が正常に投稿されました'
-      redirect_to @message
-    else
-      flash.now[:danger] = 'tasks が投稿されませんでした'
-      render :new
-    end
+    flash[:success] = 'task は正常に削除されました'
+    redirect_to tasks_url
   end
 
   private
-  def tasks_params
-    params.require(:tasks).permit(:content)
+
+  def set_task
+    @task = task.find(params[:id])
+  end
+
+  def task_params
+    params.require(:task).permit(:content)
   end
 end
